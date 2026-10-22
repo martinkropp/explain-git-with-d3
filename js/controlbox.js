@@ -1,4 +1,4 @@
-define(['d3'], function () {
+define(['d3', 'config'], function (d3, appConfig) {
     "use strict";
 
     /**
@@ -330,7 +330,9 @@ define(['d3'], function () {
 
             var origin = this.originView,
                 local = this.historyView,
-                remotePattern = /^origin\/([^\/]+)$/,
+                remoteName = appConfig.remoteName,
+                // escape regex special characters so any remote name matches literally
+                remotePattern = new RegExp('^' + remoteName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\/([^\\/]+)$'),
                 rtb, isRTB, fb,
                 fetchBranches = {},
                 fetchIds = [], // just to make sure we don't fetch the same commit twice
@@ -377,7 +379,7 @@ define(['d3'], function () {
             for (fb in fetchBranches) {
                 if (origin.branches.indexOf(fb) > -1) {
                     var remoteLoc = origin.getCommit(fb).id;
-                    local.moveTag('origin/' + fb, remoteLoc);
+                    local.moveTag(remoteName + '/' + fb, remoteLoc);
                 }
 
                 resultMessage += 'Fetched ' + fetchBranches[fb] + ' commits on ' + fb + '.</br>';
@@ -392,7 +394,7 @@ define(['d3'], function () {
             var control = this,
                 local = this.historyView,
                 currentBranch = local.currentBranch,
-                rtBranch = 'origin/' + currentBranch,
+                rtBranch = appConfig.remoteName + '/' + currentBranch,
                 isFastForward = false;
 
             this.fetch();
@@ -425,8 +427,8 @@ define(['d3'], function () {
         push: function (args) {
             var control = this,
                 local = this.historyView,
-                remoteName = args.shift() || 'origin',
-                remote = this[remoteName + 'View'],
+                remoteName = args.shift() || appConfig.remoteName,
+                remote = remoteName === appConfig.remoteName ? this.originView : null,
                 branchArgs = args.pop(),
                 localRef = local.currentBranch,
                 remoteRef = local.currentBranch,
@@ -434,10 +436,6 @@ define(['d3'], function () {
                 findCommitsToPush,
                 isCommonCommit,
                 toPush = [];
-
-            if (remoteName === 'history') {
-                throw new Error('Sorry, you can\'t have a remote named "history" in this example.');
-            }
 
             if (!remote) {
                 throw new Error('There is no remote server named "' + remoteName + '".');

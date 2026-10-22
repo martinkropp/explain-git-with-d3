@@ -309,7 +309,8 @@
 <script type="text/javascript">
 require(['explaingit'], function (explainGit) {
     var defaultBranch = explainGit.defaultBranch,
-        originDefaultBranch = 'origin/' + defaultBranch,
+        remoteName = explainGit.remoteName,
+        remoteDefaultBranch = remoteName + '/' + defaultBranch,
         defaultBranchLabels = document.getElementsByClassName('default-branch');
 
     for (var i = 0; i < defaultBranchLabels.length; i++) {
@@ -414,10 +415,10 @@ require(['explaingit'], function (explainGit) {
             name: 'Fetch',
             height: 500,
             commitData: [
-                {id: 'e137e9b', tags: [originDefaultBranch]},
+                {id: 'e137e9b', tags: [remoteDefaultBranch]},
                 {id: '6ce726f', parent: 'e137e9b'},
                 {id: 'bb92e0e', parent: '6ce726f', tags: [defaultBranch]},
-                {id: '0cff760', parent: 'e137e9b', tags: ['origin/dev']},
+                {id: '0cff760', parent: 'e137e9b', tags: [remoteName + '/dev']},
                 {id: '4ed301d', parent: '0cff760', tags: ['dev']}
             ],
             originData: [
@@ -437,7 +438,7 @@ require(['explaingit'], function (explainGit) {
             name: 'Pull',
             height: 500,
             commitData: [
-                {id: 'e137e9b', tags: [originDefaultBranch]},
+                {id: 'e137e9b', tags: [remoteDefaultBranch]},
                 {id: '46d095b', parent: 'e137e9b', tags: [defaultBranch]}
             ],
             originData: [
@@ -454,7 +455,7 @@ require(['explaingit'], function (explainGit) {
             name: 'Push',
             height: 500,
             commitData: [
-                {id: 'e137e9b', tags: [originDefaultBranch]},
+                {id: 'e137e9b', tags: [remoteDefaultBranch]},
                 {id: '46d095b', parent: 'e137e9b', tags: [defaultBranch]}
             ],
             originData: [
@@ -470,17 +471,17 @@ require(['explaingit'], function (explainGit) {
             height: 200,
             baseLine: 0.4,
             commitData: [
-                {id: 'e137e9b', tags: [originDefaultBranch]},
+                {id: 'e137e9b', tags: [remoteDefaultBranch]},
                 {id: '0e70093', parent: 'e137e9b'},
                 {id: '3e33afd', parent: '0e70093', tags: [defaultBranch]}
             ],
-            initialMessage: 'Type "git reset ' + originDefaultBranch + '".'
+            initialMessage: 'Type "git reset ' + remoteDefaultBranch + '".'
         },
         'fetchrebase': {
             name: 'FetchRebase',
             height: 500,
             commitData: [
-                {id: 'e137e9b', tags: [originDefaultBranch, defaultBranch]},
+                {id: 'e137e9b', tags: [remoteDefaultBranch, defaultBranch]},
                 {id: '46d095b', parent: 'e137e9b'},
                 {id: 'dccdc4d', parent: '46d095b', tags: ['my-branch']}
             ],
@@ -492,7 +493,7 @@ require(['explaingit'], function (explainGit) {
                 {id: 'ee5df4b', parent: '090e2b8', tags: [defaultBranch]}
             ],
             initialMessage:
-                'First type "git fetch". Then type "git rebase ' + originDefaultBranch + '".'
+                'First type "git fetch". Then type "git rebase ' + remoteDefaultBranch + '".'
         },
         'deletebranches': {
             name: 'DeleteBranches',
@@ -516,7 +517,7 @@ require(['explaingit'], function (explainGit) {
             name: 'Free',
             height: 500,
             commitData: [
-                {id: 'e137e9b', tags: [originDefaultBranch, defaultBranch]}
+                {id: 'e137e9b', tags: [remoteDefaultBranch, defaultBranch]}
             ],
             originData: [
                 {id: 'e137e9b'},

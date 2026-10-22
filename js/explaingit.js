@@ -25,7 +25,7 @@ define(['historyview', 'controlbox', 'd3', 'config'], function (HistoryView, Con
                 width: 300,
                 height: 225,
                 commitRadius: 15,
-                remoteName: 'origin',
+                remoteName: config.remoteName,
                 commitData: args.originData
             });
 
@@ -65,6 +65,7 @@ define(['historyview', 'controlbox', 'd3', 'config'], function (HistoryView, Con
         ControlBox: ControlBox,
         generateId: HistoryView.generateId,
         defaultBranch: config.defaultBranch,
+        remoteName: config.remoteName,
         open: open,
         reset: reset
     };
