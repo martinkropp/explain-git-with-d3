@@ -229,6 +229,67 @@ define(['d3', 'config'], function (d3, appConfig) {
             }
         },
 
+        // "switch" is a reserved word, so the key is quoted
+        'switch': function (args) {
+            var local = this.historyView,
+                remotePrefix = appConfig.remoteName + '/',
+                arg = args.shift(),
+                ref = args.shift(),
+                commit;
+
+            // remote tracking branches and git tags ("[v1.0]") are not local branches
+            var isLocalBranch = function (name) {
+                return local.branches.indexOf(name) > -1 &&
+                    name.indexOf(remotePrefix) !== 0 &&
+                    name.charAt(0) !== '[';
+            };
+
+            if (!arg) {
+                throw new Error('You need to give a branch name.');
+            }
+
+            if (args.length > 0) {
+                throw new Error('Sorry, too many arguments for this example.');
+            }
+
+            switch (arg) {
+            case '-c':
+            case '--create':
+                if (!ref) {
+                    throw new Error('You need to give a name for the new branch.');
+                }
+
+                local.branch(ref);
+                local.checkout(ref);
+                break;
+            case '-d':
+            case '--detach':
+                commit = ref && local.getCommit(ref);
+
+                if (!commit) {
+                    throw new Error('Cannot find commit: ' + ref);
+                }
+
+                local.checkout(commit.id);
+                break;
+            default:
+                if (arg.charAt(0) === '-' || ref) {
+                    return this.error();
+                }
+
+                if (!isLocalBranch(arg)) {
+                    if (local.getCommit(arg)) {
+                        throw new Error('A branch is expected, got "' + arg + '". ' +
+                            'Use "git switch --detach ' + arg + '" to check out a commit without a branch.');
+                    }
+
+                    throw new Error('Invalid branch: ' + arg);
+                }
+
+                local.checkout(arg);
+            }
+        },
+
         tag: function (args) {
             if (args.length < 1) {
                 this.info(

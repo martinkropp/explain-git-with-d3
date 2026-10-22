@@ -41,6 +41,7 @@
     </div>
     <div class="twocol">
       <h4>&nbsp;</h4>
+      <a id="open-switch" class="openswitch" href="#switch">git switch</a>
       <a id="open-checkout" class="openswitch" href="#checkout">git checkout</a>
       <a id="open-checkout-b" class="openswitch" href="#checkout-b">git checkout -b</a>
     </div>
@@ -105,6 +106,14 @@
       </p>
       <div class="playground-container"></div>
     </div>
+    <div id="ExplainGitSwitch-Container" class="twelvecol concept-container">
+      <p>
+        <span class="cmd">git switch</span> is the newer command for switching branches.
+        Type <span class="cmd">git switch <span class="dev-branch">dev</span></span> to switch to another branch,
+        or <span class="cmd">git switch -c branchname</span> to create a new branch and switch to it.
+      </p>
+      <div class="playground-container"></div>
+    </div>    
     <div id="ExplainGitCheckout-Container" class="twelvecol concept-container">
       <p>
         <span class="cmd">git checkout</span> has many uses,
@@ -347,6 +356,17 @@ require(['explaingit', 'config'], function (explainGit, config) {
             commitData: [
                 {id: 'e137e9b', tags: [defaultBranch]}
             ]
+        },
+        'switch': {
+            name: 'Switch',
+            height: 500,
+            commitData: [
+                {id: 'e137e9b'},
+                {id: 'bb92e0e', parent: 'e137e9b', tags: [defaultBranch]},
+                {id: 'e088135', parent: 'e137e9b', tags: [devBranch]}
+            ],
+            initialMessage:
+                'Use git switch, git branch, and git commit commands until you understand.'
         },
         'checkout': {
             name: 'Checkout',
