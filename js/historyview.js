@@ -937,7 +937,7 @@ define(['d3', 'config'], function (d3, appConfig) {
                 commit.reverted = true;
                 this.commit({reverts: commit.id});
             } else {
-                throw new Error(ref + 'is not an ancestor of HEAD.');
+                throw new Error(ref + ' is not an ancestor of HEAD.');
             }
         },
 
