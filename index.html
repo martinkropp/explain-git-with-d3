@@ -156,6 +156,13 @@
         on this site.
       </p>
       <p>
+        To undo changes to files that are not committed yet, git has a separate command,
+        <span class="cmd">git restore</span>. <span class="cmd">git restore file.txt</span> discards the
+        changes in your working directory, and <span class="cmd">git restore --staged file.txt</span>
+        unstages a file. Since this site doesn't show files, <span class="cmd">git restore</span> is not
+        simulated here. You can read about it <a href="https://git-scm.com/docs/git-restore">here</a>.
+      </p>
+      <p>
         The ref "HEAD^" is usually used together with this command. "HEAD^" means "the commit right
         before HEAD. "HEAD^^" means "two commits before HEAD", and so on.
       </p>
