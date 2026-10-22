@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-A static, client-side site that visualizes git operations with D3 (v3.5.12) and SVG. Users type simulated `git` commands into a sandbox and watch a commit graph update. Live at http://onlywei.github.io/explain-git-with-d3/ (GitHub Pages, served from `master`).
+A static, client-side site that visualizes git operations with D3 (v3.5.12) and SVG. Users type simulated `git` commands into a sandbox and watch a commit graph update. Live at http://onlywei.github.io/explain-git-with-d3/ (GitHub Pages, served from `main`).
 
 ## Development
 
@@ -18,7 +18,7 @@ There is no build, package manager, linter, or test suite. RequireJS, D3, normal
 
 Three AMD modules in `js/`:
 
-- **`historyview.js` — `HistoryView`**: the git model *and* its SVG rendering. State is `commitData`, an array of `{id, parent, parent2?, tags[], message?}`. Branches, `HEAD`, remote-tracking refs (`origin/master`) and git tags all live in a commit's `tags` array; git tags are stored wrapped in brackets (`[v1.0]`), and `getCommit(ref)` resolves ids, tag names (with or without brackets) and `HEAD^^…`. Git operations (`commit`, `branch`, `checkout`, `reset`, `revert`, `merge`, `rebase`, `deleteBranch`, `moveTag`, …) mutate `commitData` then call `renderCommits()` / `renderTags()`. Layout is computed, not stored: `cx`/`cy` derive positions from parents relative to `baseLine`, and `preventOverlap` shifts colliding commits. Commits unreachable from any branch are marked `branchless` and drawn faded. A second `HistoryView` with `remoteName: 'origin'` acts as the remote.
+- **`historyview.js` — `HistoryView`**: the git model *and* its SVG rendering. State is `commitData`, an array of `{id, parent, parent2?, tags[], message?}`. Branches, `HEAD`, remote-tracking refs (`origin/main`) and git tags all live in a commit's `tags` array; git tags are stored wrapped in brackets (`[v1.0]`), and `getCommit(ref)` resolves ids, tag names (with or without brackets) and `HEAD^^…`. Git operations (`commit`, `branch`, `checkout`, `reset`, `revert`, `merge`, `rebase`, `deleteBranch`, `moveTag`, …) mutate `commitData` then call `renderCommits()` / `renderTags()`. Layout is computed, not stored: `cx`/`cy` derive positions from parents relative to `baseLine`, and `preventOverlap` shifts colliding commits. Commits unreachable from any branch are marked `branchless` and drawn faded. A second `HistoryView` with `remoteName: 'origin'` acts as the remote.
 - **`controlbox.js` — `ControlBox`**: the command-line UI. `command()` splits input and dispatches `git <method> <args>` to the same-named method on `ControlBox` (so adding a command = adding a method). These methods parse flags and call into `historyView` / `originView`; remote commands (`fetch`, `pull`, `push`) copy commits between the two views. Thrown `Error`s are caught and shown as error lines in the log.
 - **`explaingit.js`**: public API exposed as `window.explainGit`. `open(config)` builds the HistoryView(s) + ControlBox inside `#ExplainGit<name>-Container .playground-container`; `reset()` destroys all open sandboxes.
 
