@@ -109,8 +109,8 @@
       <p>
         <span class="cmd">git checkout</span> has many uses,
         but the main one is to switch between branches.</br>
-        For example, to switch from <span class="default-branch">main</span> branch to dev branch,
-        I would type <span class="cmd">git checkout dev</span>.
+        For example, to switch from <span class="default-branch">main</span> branch to <span class="dev-branch">dev</span> branch,
+        I would type <span class="cmd">git checkout <span class="dev-branch">dev</span></span>.
         After that, if I do a git commit, notice where it goes. Try it.
       </p>
       <p>
@@ -175,7 +175,7 @@
       </p>
       <p>
         If there was no divergence between the two commits, git will do a "fast-forward" method merge.</br>
-        To see this happen, checkout the 'ff' branch and then type <span class="cmd">git merge dev</span>.
+        To see this happen, checkout the 'ff' branch and then type <span class="cmd">git merge <span class="dev-branch">dev</span></span>.
       </p>
       <div class="playground-container"></div>
     </div>
@@ -307,15 +307,22 @@
 </svg>
 
 <script type="text/javascript">
-require(['explaingit'], function (explainGit) {
-    var defaultBranch = explainGit.defaultBranch,
-        remoteName = explainGit.remoteName,
+require(['explaingit', 'config'], function (explainGit, config) {
+    var defaultBranch = config.defaultBranch,
+        remoteName = config.remoteName,
         remoteDefaultBranch = remoteName + '/' + defaultBranch,
-        defaultBranchLabels = document.getElementsByClassName('default-branch');
+        devBranch = 'dev';
 
-    for (var i = 0; i < defaultBranchLabels.length; i++) {
-        defaultBranchLabels[i].textContent = defaultBranch;
+    // fill the branch names mentioned in the explanation texts
+    function fillLabels(className, text) {
+        var labels = document.getElementsByClassName(className);
+        for (var i = 0; i < labels.length; i++) {
+            labels[i].textContent = text;
+        }
     }
+
+    fillLabels('default-branch', defaultBranch);
+    fillLabels('dev-branch', devBranch);
 
     var examples = {
         'commit': {
@@ -347,7 +354,7 @@ require(['explaingit'], function (explainGit) {
             commitData: [
                 {id: 'e137e9b'},
                 {id: 'bb92e0e', parent: 'e137e9b', tags: [defaultBranch]},
-                {id: 'e088135', parent: 'e137e9b', tags: ['dev']}
+                {id: 'e088135', parent: 'e137e9b', tags: [devBranch]}
             ],
             initialMessage:
                 'Use git checkout, git branch, and git commit commands until you understand.'
@@ -359,7 +366,7 @@ require(['explaingit'], function (explainGit) {
                 {id: 'e137e9b'},
                 {id: 'f5b32c8', parent: 'e137e9b'},
                 {id: 'bb92e0e', parent: 'f5b32c8', tags: [defaultBranch]},
-                {id: 'e088135', parent: 'e137e9b', tags: ['dev']}
+                {id: 'e088135', parent: 'e137e9b', tags: [devBranch]}
             ],
             initialMessage:
                 'Use git checkout -b and git commit commands until you understand.'
@@ -393,10 +400,10 @@ require(['explaingit'], function (explainGit) {
                 {id: 'e137e9b'},
                 {id: 'bb92e0e', parent: 'e137e9b', tags: [defaultBranch]},
                 {id: 'f5b32c8', parent: 'e137e9b', tags: ['ff']},
-                {id: 'e088135', parent: 'f5b32c8', tags: ['dev']}
+                {id: 'e088135', parent: 'f5b32c8', tags: [devBranch]}
             ],
             initialMessage:
-                'Type "git merge dev".'
+                'Type "git merge ' + devBranch + '".'
         },
         'rebase': {
             name: 'Rebase',
@@ -405,9 +412,9 @@ require(['explaingit'], function (explainGit) {
                 {id: 'e137e9b'},
                 {id: 'bb92e0e', parent: 'e137e9b', tags: [defaultBranch]},
                 {id: 'f5b32c8', parent: 'e137e9b'},
-                {id: 'e088135', parent: 'f5b32c8', tags: ['dev']}
+                {id: 'e088135', parent: 'f5b32c8', tags: [devBranch]}
             ],
-            currentBranch: 'dev',
+            currentBranch: devBranch,
             initialMessage:
                 'Type "git rebase ' + defaultBranch + '".'
         },
@@ -418,8 +425,8 @@ require(['explaingit'], function (explainGit) {
                 {id: 'e137e9b', tags: [remoteDefaultBranch]},
                 {id: '6ce726f', parent: 'e137e9b'},
                 {id: 'bb92e0e', parent: '6ce726f', tags: [defaultBranch]},
-                {id: '0cff760', parent: 'e137e9b', tags: [remoteName + '/dev']},
-                {id: '4ed301d', parent: '0cff760', tags: ['dev']}
+                {id: '0cff760', parent: 'e137e9b', tags: [remoteName + '/' + devBranch]},
+                {id: '4ed301d', parent: '0cff760', tags: [devBranch]}
             ],
             originData: [
                 {id: 'e137e9b'},
@@ -428,7 +435,7 @@ require(['explaingit'], function (explainGit) {
                 {id: 'ee5df4b', parent: '090e2b8', tags: [defaultBranch]},
                 {id: '0cff760', parent: 'e137e9b'},
                 {id: '2f8d946', parent: '0cff760'},
-                {id: '29235ca', parent: '2f8d946', tags: ['dev']}
+                {id: '29235ca', parent: '2f8d946', tags: [devBranch]}
             ],
             initialMessage:
                 'Carefully compare the commit IDs between the origin and the local repository. ' +

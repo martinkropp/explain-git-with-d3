@@ -64,8 +64,6 @@ define(['historyview', 'controlbox', 'd3', 'config'], function (HistoryView, Con
         HistoryView: HistoryView,
         ControlBox: ControlBox,
         generateId: HistoryView.generateId,
-        defaultBranch: config.defaultBranch,
-        remoteName: config.remoteName,
         open: open,
         reset: reset
     };
