@@ -1,4 +1,4 @@
-define(['d3'], function () {
+define(['d3', 'config'], function (d3, appConfig) {
     "use strict";
 
     var REG_MARKER_END = 'url(#triangle)',
@@ -237,7 +237,7 @@ define(['d3'], function () {
         this.commitData = commitData;
 
         this.branches = [];
-        this.currentBranch = config.currentBranch || 'main';
+        this.currentBranch = config.currentBranch || appConfig.defaultBranch;
 
         this.width = config.width;
         this.height = config.height || 400;

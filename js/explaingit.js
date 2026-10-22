@@ -1,4 +1,4 @@
-define(['historyview', 'controlbox', 'd3'], function (HistoryView, ControlBox, d3) {
+define(['historyview', 'controlbox', 'd3', 'config'], function (HistoryView, ControlBox, d3, config) {
     var prefix = 'ExplainGit',
         openSandBoxes = [],
         open,
@@ -64,6 +64,7 @@ define(['historyview', 'controlbox', 'd3'], function (HistoryView, ControlBox, d
         HistoryView: HistoryView,
         ControlBox: ControlBox,
         generateId: HistoryView.generateId,
+        defaultBranch: config.defaultBranch,
         open: open,
         reset: reset
     };
