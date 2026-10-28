@@ -5,6 +5,7 @@ define(['d3', 'config'], function (d3, appConfig) {
         MERGE_MARKER_END = 'url(#brown-triangle)',
         FADED_MARKER_END = 'url(#faded-triangle)',
         HEAD_MARKER = 'HEAD',
+        HEAD_ANCESTOR_REGEX = new RegExp(HEAD_MARKER + '(\\^+)'),
 
         preventOverlap,
         applyBranchlessClass,
@@ -271,7 +272,7 @@ define(['d3', 'config'], function (d3, appConfig) {
          */
         getCommit: function getCommit(ref) {
             var commitData = this.commitData,
-                headMatcher = /HEAD(\^+)/.exec(ref),
+                headMatcher = HEAD_ANCESTOR_REGEX.exec(ref),
                 matchedCommit = null;
 
             if (ref === 'initial') {
@@ -838,7 +839,7 @@ define(['d3', 'config'], function (d3, appConfig) {
             }
 
             if (name === HEAD_MARKER) {
-                throw new Error('You cannot name your branch "HEAD".');
+                throw new Error('You cannot name your branch "' + HEAD_MARKER + '".');
             }
 
             if (name.indexOf(' ') > -1) {
