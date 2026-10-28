@@ -4,7 +4,7 @@ define(['d3', 'config'], function (d3, appConfig) {
     var REG_MARKER_END = 'url(#triangle)',
         MERGE_MARKER_END = 'url(#brown-triangle)',
         FADED_MARKER_END = 'url(#faded-triangle)',
-        HEAD = 'HEAD',
+        HEAD_MARKER = 'HEAD',
 
         preventOverlap,
         applyBranchlessClass,
@@ -279,7 +279,7 @@ define(['d3', 'config'], function (d3, appConfig) {
             }
 
             if (headMatcher) {
-                ref = HEAD;
+                ref = HEAD_MARKER;
             }
 
             for (var i = 0; i < commitData.length; i++) {
@@ -610,7 +610,7 @@ define(['d3', 'config'], function (d3, appConfig) {
 
                 for (var t = 0; t < c.tags.length; t++) {
                     var tagName = c.tags[t];
-                    if (tagName.toUpperCase() === HEAD) {
+                    if (tagName.toUpperCase() === HEAD_MARKER) {
                         headCommit = c;
                     } else if (this.branches.indexOf(tagName) === -1) {
                         this.branches.push(tagName);
@@ -622,8 +622,8 @@ define(['d3', 'config'], function (d3, appConfig) {
 
             if (!headCommit) {
                 headCommit = this.getCommit(this.currentBranch);
-                headCommit.tags.push(HEAD);
-                tagData.push({name: HEAD, commit: headCommit.id});
+                headCommit.tags.push(HEAD_MARKER);
+                tagData.push({name: HEAD_MARKER, commit: headCommit.id});
             }
 
             // find out which commits are not branchless
@@ -705,7 +705,7 @@ define(['d3', 'config'], function (d3, appConfig) {
                         classes += ' git-tag';
                     } else if (d.name.indexOf('/') >= 0) {
                         classes += ' remote-branch';
-                    } else if (d.name.toUpperCase() === HEAD) {
+                    } else if (d.name.toUpperCase() === HEAD_MARKER) {
                         classes += ' head-tag';
                     }
                     return classes;
@@ -837,7 +837,7 @@ define(['d3', 'config'], function (d3, appConfig) {
                 throw new Error('You need to give a branch name.');
             }
 
-            if (name === HEAD) {
+            if (name === HEAD_MARKER) {
                 throw new Error('You cannot name your branch "HEAD".');
             }
 
@@ -849,7 +849,7 @@ define(['d3', 'config'], function (d3, appConfig) {
                 throw new Error('Branch "' + name + '" already exists.');
             }
 
-            this.getCommit(HEAD).tags.push(name);
+            this.getCommit(HEAD_MARKER).tags.push(name);
             this.renderTags();
             return this;
         },
@@ -894,7 +894,7 @@ define(['d3', 'config'], function (d3, appConfig) {
                 throw new Error('Cannot find commit: ' + ref);
             }
 
-            var previousHead = this.getCircle(HEAD),
+            var previousHead = this.getCircle(HEAD_MARKER),
                 newHead = this.getCircle(commit.id);
 
             if (previousHead && !previousHead.empty()) {
@@ -902,7 +902,7 @@ define(['d3', 'config'], function (d3, appConfig) {
             }
 
             this._setCurrentBranch(ref === commit.id ? null : ref);
-            this.moveTag(HEAD, commit.id);
+            this.moveTag(HEAD_MARKER, commit.id);
             this.renderTags();
 
             newHead.classed('checked-out', true);
@@ -934,7 +934,7 @@ define(['d3', 'config'], function (d3, appConfig) {
                 throw new Error('Cannot find ref: ' + ref);
             }
 
-            if (this.isAncestor(commit, HEAD)) {
+            if (this.isAncestor(commit, HEAD_MARKER)) {
                 commit.reverted = true;
                 this.commit({reverts: commit.id});
             } else {
@@ -955,7 +955,7 @@ define(['d3', 'config'], function (d3, appConfig) {
 
         merge: function (ref, noFF) {
             var mergeTarget = this.getCommit(ref),
-                currentCommit = this.getCommit(HEAD);
+                currentCommit = this.getCommit(HEAD_MARKER);
 
             if (!mergeTarget) {
                 throw new Error('Cannot find ref: ' + ref);
@@ -984,7 +984,7 @@ define(['d3', 'config'], function (d3, appConfig) {
 
         rebase: function (ref) {
             var rebaseTarget = this.getCommit(ref),
-                currentCommit = this.getCommit(HEAD),
+                currentCommit = this.getCommit(HEAD_MARKER),
                 isCommonAncestor,
                 rebaseTreeLoc,
                 rebaseMessage,
@@ -1029,7 +1029,7 @@ define(['d3', 'config'], function (d3, appConfig) {
 
                 for (var t = 0; t < rebasedCommit.tags.length; t++) {
                     var tagName = rebasedCommit.tags[t];
-                    if (tagName !== this.currentBranch && tagName !== HEAD) {
+                    if (tagName !== this.currentBranch && tagName !== HEAD_MARKER) {
                         remainingHusk.tags.unshift(tagName);
                     }
                 }
